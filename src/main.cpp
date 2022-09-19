@@ -12,14 +12,14 @@
 // Adafruit_TCS34725 tcs = Adafruit_TCS34725();
 
 /* Initialise with specific int time and gain values */
-Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_24MS, TCS34725_GAIN_1X);
+Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_24MS, TCS34725_GAIN_60X);
 int led = 13;
 int avg_values_countdown = 20;
 uint32_t total_k = 0;
 uint32_t total_r = 0;
 uint32_t avg_k = 0;
 uint32_t avg_r=0;
-const uint32_t MAX_TEMP_DIFF=200;
+const int32_t MAX_TEMP_DIFF=600;
 
 
 void setup(void) {
@@ -48,6 +48,8 @@ void loop(void) {
   lux = tcs.calculateLux(r, g, b);
 
   Serial.print("Color Temp: "); Serial.print(colorTemp, DEC); Serial.print(" K - ");
+    Serial.print("C: "); Serial.print(c, DEC); Serial.print(" c - ");
+
 
   Serial.println(" ");
   if (avg_values_countdown) {
@@ -65,12 +67,20 @@ void loop(void) {
     avg_r = total_r/20;
     Serial.print("AVG K: "); Serial.print(avg_k, DEC); Serial.println(" ");
     Serial.print("AVG R: "); Serial.print(avg_r, DEC); Serial.println(" ");
+
+
+    digitalWrite(led, HIGH);   // turn the LED on (HIGH is the voltage level)
+    delay(4000);               // wait for a second
+    digitalWrite(led, LOW); 
+
+
   }
 
 
 
 
-  int32_t dff_temp = (abs(avg_k-colorTemp));
+  int32_t dff_temp = avg_k-colorTemp;
+  if (dff_temp<0) dff_temp = dff_temp * -1;
   if (dff_temp>100000) dff_temp = 0;
   //if ((abs(avg_r-r))>100) {
     Serial.print("DIFF K: "); Serial.print(dff_temp); Serial.println(" ");
