@@ -19,6 +19,7 @@ uint32_t total_k = 0;
 uint32_t total_r = 0;
 uint32_t avg_k = 0;
 uint32_t avg_r=0;
+const uint32_t MAX_TEMP_DIFF=200;
 
 
 void setup(void) {
@@ -74,7 +75,7 @@ void loop(void) {
   //if ((abs(avg_r-r))>100) {
     Serial.print("DIFF K: "); Serial.print(dff_temp); Serial.println(" ");
 
-  if (dff_temp>200) {
+  if (dff_temp>MAX_TEMP_DIFF) {
     Serial.print("FLASH LED"); Serial.println(" ");
 
     digitalWrite(led, HIGH);   // turn the LED on (HIGH is the voltage level)
