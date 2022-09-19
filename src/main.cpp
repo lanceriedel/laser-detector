@@ -74,7 +74,7 @@ void loop(void) {
   //if ((abs(avg_r-r))>100) {
     Serial.print("DIFF K: "); Serial.print(dff_temp); Serial.println(" ");
 
-  if (dff_temp>500) {
+  if (dff_temp>200) {
     Serial.print("FLASH LED"); Serial.println(" ");
 
     digitalWrite(led, HIGH);   // turn the LED on (HIGH is the voltage level)
